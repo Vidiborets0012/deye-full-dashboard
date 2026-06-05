@@ -1,0 +1,261 @@
+/* ==========================================================================
+   ОБНУЛЕННЯ ТА БАЗОВІ СТИЛІ
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-color: #1a1a1a;
+  --card-bg: #2d2d2d;
+  --text-main: #ffffff;
+  --text-muted: #aaaaaa;
+  --border-color: #444444;
+
+  /* Інженерні кольори для статусів */
+  --color-battery: #3498db; /* Синій за замовчуванням */
+  --color-grid: #e74c3c; /* Червоний (немає світла за замовчуванням) */
+  --color-load: #9b59b6; /* Фіолетовий */
+  --color-solar: #f1c40f; /* Жовтий */
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.5;
+  padding: 10px;
+}
+
+/* ==========================================================================
+   КОМПОНЕНТ: PAGE LOADER (ПОВНОЕКРАННИЙ СПІНЕР)
+   ========================================================================== */
+.page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease;
+}
+
+.page-loader--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.page-loader__spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--border-color);
+  border-top-color: var(--color-battery);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+.page-loader__text {
+  text-align: center;
+  color: var(--text-main);
+  font-size: 1.1rem;
+}
+
+.page-loader__text span {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   КОМПОНЕНТ: DASHBOARD (ОСНОВНИЙ КОНТЕЙНЕР І СІТКА)
+   ========================================================================== */
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 94vh;
+  transition: opacity 0.4s ease;
+}
+
+.dashboard--hidden {
+  opacity: 0;
+}
+
+.dashboard__header {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard__title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.dashboard__timestamp {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* --- МАГІЯ CSS GRID (Mobile First) --- */
+.dashboard__grid {
+  display: grid;
+  grid-template-columns: 1fr; /* На смартфонах — 1 колонка */
+  gap: 15px; /* Відступи між картками */
+  flex-grow: 1;
+}
+
+/* Планшети та невеличкі ноутбуки */
+@media (min-width: 600px) {
+  .dashboard__grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 колонки */
+  }
+}
+
+/* Великі монітори */
+@media (min-width: 1024px) {
+  .dashboard__grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 колонки в ряд */
+  }
+}
+
+.dashboard__footer {
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   КОМПОНЕНТ: CARD (ІНЖЕНЕРНА КАРТКА)
+   ========================================================================== */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Декоративна кольорова лінія зверху кожної картки */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+}
+
+.card--battery::before {
+  background-color: var(--color-battery);
+}
+.card--grid::before {
+  background-color: var(--color-grid);
+}
+.card--load::before {
+  background-color: var(--color-load);
+}
+.card--solar::before {
+  background-color: var(--color-solar);
+}
+
+.card__title {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.card__main-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 10px 0;
+}
+
+.card__main-value--load {
+  color: #e8a7a1;
+} /* Легке підсвічування цифр */
+.card__main-value--solar {
+  color: #ffe675;
+}
+
+.card__description {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: auto;
+}
+
+/* Таблична структура всередині карток */
+.card__details {
+  margin-top: 15px;
+}
+
+.card__row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card__row:last-child {
+  border-bottom: none;
+}
+
+.card__row span {
+  color: var(--text-muted);
+}
+
+/* Елемент: Плашка статусу (badge) */
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 20px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.badge--success {
+  background-color: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+
+.badge--danger {
+  background-color: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+}
