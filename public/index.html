@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deye Pro Panel — Моніторинг ОСББ</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div id="pageLoader" class="page-loader">
+      <div class="page-loader__spinner"></div>
+      <p class="page-loader__text">
+        Ініціалізація інженерної панелі...<br /><span
+          >(Збір даних з інвертора Deye)</span
+        >
+      </p>
+    </div>
+
+    <div id="dashboardBox" class="dashboard dashboard--hidden">
+      <header class="dashboard__header">
+        <h1 class="dashboard__title">Deye Інженерна Панель</h1>
+        <p class="dashboard__timestamp">
+          Останнє оновлення хмари: <span id="syncTime">--:--:--</span>
+        </p>
+      </header>
+
+      <main class="dashboard__grid">
+        <section class="card card--battery">
+          <h2 class="card__title">🔋 Акумуляторна збірка</h2>
+          <div class="card__main-value"><span id="batSoc">--</span>%</div>
+          <div class="card__details">
+            <div class="card__row">
+              <span>Статус:</span><strong id="batStatus">--</strong>
+            </div>
+            <div class="card__row">
+              <span>Потужність:</span><strong id="batPower">-- кВт</strong>
+            </div>
+            <div class="card__row">
+              <span>Напруга:</span><strong id="batVoltage">-- В</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card--grid">
+          <h2 class="card__title">⚡ Міська мережа</h2>
+          <div id="gridLightBadge" class="badge">Завантаження...</div>
+          <div class="card__details">
+            <div class="card__row">
+              <span>Режим роботи:</span><strong id="gridStatus">--</strong>
+            </div>
+            <div class="card__row">
+              <span>Потужність мережі:</span
+              ><strong id="gridPower">-- кВт</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card--load">
+          <h2 class="card__title">🏠 Споживання будинку</h2>
+          <div class="card__main-value card__main-value--load">
+            <span id="loadPower">--</span> кВт
+          </div>
+          <p class="card__description">
+            Поточне сумарне навантаження на інвертор від внутрішніх споживачів.
+          </p>
+        </section>
+
+        <section class="card card--solar">
+          <h2 class="card__title">☀️ Сонячна генерація</h2>
+          <div class="card__main-value card__main-value--solar">
+            <span id="solarPower">--</span> кВт
+          </div>
+          <div class="card__details">
+            <div class="card__row">
+              <span>Генерація за сьогодні:</span
+              ><strong id="solarToday">-- кВт·год</strong>
+            </div>
+            <div class="card__row">
+              <span>Загальний виробіток:</span
+              ><strong id="solarTotal">-- кВт·год</strong>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="dashboard__footer">
+        <p>Система моніторингу Deye Cloud API • Монолітна архітектура v2.0</p>
+      </footer>
+    </div>
+
+    <script src="./js/app.js" defer></script>
+  </body>
+</html>
